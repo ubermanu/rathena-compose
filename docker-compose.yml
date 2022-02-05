@@ -1,37 +1,17 @@
 version: "3.6"
 
 services:
-  login:
+  server:
     image: rathena/rathena-renewal
     ports:
       - "6900:6900"
-    volumes:
-      - ./conf:/rathena/conf/import
-    command: ["./login-server"]
-    depends_on:
-      - db
-
-  char:
-    image: rathena/rathena-renewal
-    ports:
       - "6121:6121"
-    volumes:
-      - ./conf:/rathena/conf/import
-    command: ["./char-server"]
-    depends_on:
-      - login
-      - db
-
-  map:
-    image: rathena/rathena-renewal
-    ports:
       - "5121:5121"
     volumes:
       - ./conf:/rathena/conf/import
       - ./mapcache/map_cache.dat:/rathena/db/import/map_cache.dat
-    command: ["./map-server"]
+    command: ["./athena-start", "watch"]
     depends_on:
-      - char
       - db
 
   db:
@@ -54,9 +34,9 @@ services:
     environment:
       DATABASE_HOST: db
       LOG_DATABASE_HOST: db
-      LOGIN_SERVER_HOST: login
-      CHAR_SERVER_HOST: char
-      MAP_SERVER_HOST: map
+      LOGIN_SERVER_HOST: server
+      CHAR_SERVER_HOST: server
+      MAP_SERVER_HOST: server
     volumes:
       - cplogs:/fluxcp/data/logs
     ports:
