@@ -57,6 +57,8 @@ services:
       LOGIN_SERVER_HOST: login
       CHAR_SERVER_HOST: char
       MAP_SERVER_HOST: map
+    volumes:
+      - cplogs:/fluxcp/data/logs
     ports:
       - "80:80"
     depends_on:
@@ -67,3 +69,4 @@ services:
 
 volumes:
   mariadb:
+  cplogs:
