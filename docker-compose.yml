@@ -1,0 +1,53 @@
+version: "3.6"
+
+services:
+  login:
+    image: rathena/rathena-renewal
+    ports:
+      - "6900:6900"
+    volumes:
+      - ./conf:/rathena/conf/import
+    command: ["./login-server"]
+    depends_on:
+      - db
+
+  char:
+    image: rathena/rathena-renewal
+    ports:
+      - "6121:6121"
+    volumes:
+      - ./conf:/rathena/conf/import
+    command: ["./char-server"]
+    depends_on:
+      - login
+      - db
+
+  map:
+    image: rathena/rathena-renewal
+    ports:
+      - "5121:5121"
+    volumes:
+      - ./conf:/rathena/conf/import
+      - ./mapcache/map_cache.dat:/rathena/db/import/map_cache.dat
+    command: ["./map-server"]
+    depends_on:
+      - char
+      - db
+
+  db:
+    image: mariadb
+    volumes:
+      - "mariadb:/var/lib/mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: ragnarok
+      MYSQL_DATABASE: ragnarok
+      MYSQL_USER: ragnarok
+      MYSQL_PASSWORD: ragnarok
+
+  adminer:
+    image: adminer
+    ports:
+      - "8080:8080"
+
+volumes:
+  mariadb:
