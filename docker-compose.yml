@@ -49,5 +49,21 @@ services:
     ports:
       - "8080:8080"
 
+  panel:
+    image: ubermanu/fluxcp
+    environment:
+      DATABASE_HOST: db
+      LOG_DATABASE_HOST: db
+      LOGIN_SERVER_HOST: login
+      CHAR_SERVER_HOST: char
+      MAP_SERVER_HOST: map
+    ports:
+      - "80:80"
+    depends_on:
+      - db
+      - login
+      - char
+      - map
+
 volumes:
   mariadb:
