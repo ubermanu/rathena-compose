@@ -1,5 +1,3 @@
-use_sql_db: no
-
 // MySQL
 login_server_ip: db
 ipban_db_ip: db
