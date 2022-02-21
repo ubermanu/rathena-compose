@@ -43,9 +43,7 @@ services:
       - "80:80"
     depends_on:
       - db
-      - login
-      - char
-      - map
+      - server
 
 volumes:
   mariadb:
