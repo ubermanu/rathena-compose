@@ -50,6 +50,18 @@ services:
       char:
         condition: service_started
 
+  web:
+    image: "rathena/${mod:-rathena-renewal-vip}:${version:-nightly}"
+    command: "./web-server"
+    restart: always
+    ports:
+      - "8888:8888"
+    volumes:
+      - "./conf/import:/rathena/conf/import:ro"
+    depends_on:
+      db:
+        condition: service_started
+
   adminer:
     image: adminer
     ports:
