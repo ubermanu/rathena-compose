@@ -1,5 +1,3 @@
-version: "3.7"
-
 x-common-environment: &common-environment
   RATHENA_INTER_LOGIN_SERVER_IP: db
   RATHENA_INTER_IPBAN_DB_IP: db
