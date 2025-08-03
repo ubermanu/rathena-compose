@@ -9,6 +9,11 @@ services:
       MYSQL_DATABASE: ragnarok
       MYSQL_USER: ragnarok
       MYSQL_PASSWORD: ragnarok
+    healthcheck:
+      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "-u", "ragnarok", "-pragnarok"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   login:
     image: "rathena/${mod:-rathena-renewal-vip}:${version:-nightly}"
@@ -20,7 +25,7 @@ services:
       - "./conf/import:/rathena/conf/import:ro"
     depends_on:
       db:
-        condition: service_started
+        condition: service_healthy
 
   char:
     image: "rathena/${mod:-rathena-renewal-vip}:${version:-nightly}"
@@ -32,7 +37,7 @@ services:
       - "./conf/import:/rathena/conf/import:ro"
     depends_on:
       db:
-        condition: service_started
+        condition: service_healthy
       login:
         condition: service_started
 
@@ -46,7 +51,7 @@ services:
       - "./conf/import:/rathena/conf/import:ro"
     depends_on:
       db:
-        condition: service_started
+        condition: service_healthy
       char:
         condition: service_started
 
@@ -60,7 +65,7 @@ services:
       - "./conf/import:/rathena/conf/import:ro"
     depends_on:
       db:
-        condition: service_started
+        condition: service_healthy
 
   adminer:
     image: adminer
@@ -72,6 +77,9 @@ services:
       ADMINER_DB: ragnarok
       ADMINER_PASSWORD: ragnarok
       ADMINER_USERNAME: ragnarok
+    depends_on:
+      db:
+        condition: service_healthy
 
   panel:
     image: ubermanu/fluxcp
