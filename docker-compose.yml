@@ -76,7 +76,7 @@ services:
         condition: service_started
 
   adminer:
-    image: michalhosna/adminer
+    image: adminer
     ports:
       - "8080:8080"
     environment:
@@ -85,7 +85,6 @@ services:
       ADMINER_DB: ragnarok
       ADMINER_PASSWORD: ragnarok
       ADMINER_USERNAME: ragnarok
-      ADMINER_AUTOLOGIN: 1
 
   panel:
     image: ubermanu/fluxcp
